@@ -1,0 +1,82 @@
+#!/usr/bin/env sh
+
+# Define color codes based on the provided gradient colors
+ESCAPE="\033"
+RESET="${ESCAPE}[0m"
+FG_V="${ESCAPE}[38;5;69m"
+FG_I="${ESCAPE}[38;5;99m"
+FG_B="${ESCAPE}[38;5;201m"
+FG_G="${ESCAPE}[38;5;196m"
+FG_Y="${ESCAPE}[38;5;214m"
+FG_O="${ESCAPE}[38;5;172m"
+FG_R="${ESCAPE}[38;5;30m"
+FG_PINK="${ESCAPE}[38;5;213m"
+FG_O2="${ESCAPE}[38;5;173m"
+FG_Y2="${ESCAPE}[38;5;227m"
+FG_G2="${ESCAPE}[38;5;46m"
+FG_YELLOW="${ESCAPE}[38;5;220m"
+FG_ORANGE="${ESCAPE}[38;5;208m"
+FG_RED="${ESCAPE}[38;5;196m"
+FG_R2="${ESCAPE}[38;5;199m"
+FG_Y3="${ESCAPE}[38;5;220m"
+FG_G3="${ESCAPE}[38;5;154m"
+FG_B2="${ESCAPE}[38;5;135m"
+FG_G4="${ESCAPE}[38;5;28m"
+FG_B3="${ESCAPE}[38;5;21m"
+FG_Y4="${ESCAPE}[38;5;220m"
+
+# Array of colors to cycle through
+COLORS=($FG_RED $FG_I $FG_B $FG_G $FG_Y $FG_O $FG_R $FG_PINK $FG_O2 $FG_Y2 $FG_G2 $FG_YELLOW $FG_ORANGE $FG_V $FG_R2 $FG_Y3 $FG_G3 $FG_B2 $FG_G4 $FG_B3 $FG_Y4)
+
+# Function to start a process and redirect its output with color
+start_process() {
+  local name="$1"
+  local cmd="$2"
+  local color="$3"
+
+  echo "${color}Starting $name: $cmd${RESET}"
+  echo "${cmd}" | sh &
+  # eval "$cmd > >(sed 's/^/${color}/' | tee -a stdout.log) 2> >(sed 's/^/${color}/' | tee -a stderr.log >&2)" &
+  pids+=($!)
+}
+
+#Proc File name
+PROCFILE="$1"
+
+# Check if Procfile exists
+if [[ ! -f "$PROCFILE" ]]; then
+  echo "Procfile not found!"
+  exit 1
+fi
+
+# Array to hold process IDs
+pids=()
+
+# Counter to cycle through colors
+color_counter=0
+
+#Read the Procfile line by line
+while IFS=: read -r name cmd; do
+  # Trim leading and trailing whitespace from name and cmd
+  name=$(echo "$name" | xargs)
+  cmd=$(echo "$cmd" | xargs)
+
+  # Skip lines starting with # or //
+  if [[ "$name" == \#* || "$name" == //* ]]; then
+    continue
+  fi
+
+  # Get the current color
+  color="${COLORS[$color_counter]}"
+
+  # Start the process
+  start_process "$name" "$cmd" "$color"
+
+  # Update the color counter
+  color_counter=$(( (color_counter + 1) % ${#COLORS[@]} ))
+done < "$PROCFILE"
+
+# Wait for all processes to finish
+for pid in "${pids[@]}"; do
+  wait $pid
+done
