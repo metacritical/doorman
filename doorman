@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-# Define color codes based on the provided gradient colors
+# Define color codes.
 ESCAPE="\033"
 RESET="${ESCAPE}[0m"
 FG_V="${ESCAPE}[38;5;69m"
