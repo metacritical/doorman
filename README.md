@@ -5,9 +5,13 @@ Doorman: Manage Procfile-based applications.
 
 ### Using Homebrew
 
-Run the following command to install doorman using Homebrew.
-`brew tap metacritical/doorman`
-`brew install doorman`
+#### Run the following command to install doorman using Homebrew.
+
+```sh
+brew tap metacritical/doorman
+
+brew install doorman
+```
 
 ### Using install.sh
 
