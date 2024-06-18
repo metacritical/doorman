@@ -23,8 +23,8 @@ start_process() {
   local cmd="$2"
   local color="$3"
 
-  echo -e "${color}Starting $name: $cmd${RESET}"
-  (env RUBY_DEBUG_OPEN=true bash -c "${cmd}" 2>&1 | while IFS= read -r line; do
+  echo "${color}Starting $name: $cmd${RESET}"
+  (bash -c "${cmd}" 2>&1 | while IFS= read -r line; do
     local timestamp=$(date '+%H:%M:%S')
     if [[ "$last_name" != "$name" ]]; then
       printf "%s\n" "$(printf '%*s' "$(tput cols)" | tr ' ' '-')"
