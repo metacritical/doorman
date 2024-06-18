@@ -1,6 +1,8 @@
 # doorman 🚪🧍
 Doorman: Manage Procfile-based applications.
 
+![Doorman Preview](.images/screenshot.png)
+
 ## Installation
 
 ### Using Homebrew
