@@ -1,7 +1,7 @@
 # doorman 🚪🧍
 Doorman: Manage Procfile-based applications.
 
-![Doorman Preview](.images/screenshot.png)
+![Doorman Preview](.images/screenshot.jpg)
 
 ## Installation
 
