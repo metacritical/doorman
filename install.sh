@@ -5,7 +5,7 @@ set -u
 ARCH=$(uname -m)
 OS=$(uname)
 
-REPO="https://github.com/metacritical/doormap"
+REPO="https://github.com/metacritical/doorman"
 LATEST_RELEASE_URL="$REPO/releases/download/v0.0.1/doorman"
 INSTALL_DIR="/usr/local/bin"
 
