@@ -10,4 +10,6 @@ LATEST_RELEASE_URL="$REPO/releases/download/v0.0.2/doorman"
 INSTALL_DIR="/usr/local/bin"
 
 echo "Installing doorman..."
-sudo curl -L "$LATEST_RELEASE_URL" -o "${INSTALL_DIR}/doorman" && chmod +x "${INSTALL_DIR}/doorman"
+curl -L "$LATEST_RELEASE_URL" > doorman 
+chmod +x doorman
+sudo mv doorman "${INSTALL_DIR}/doorman"
